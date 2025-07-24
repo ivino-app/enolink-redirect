@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecionamento WineApp</title>
+  <script>
+    const inviteCode = window.location.pathname.split('/join/')[1] || 
+                      new URLSearchParams(window.location.search).get('code');
+    
+    if (inviteCode) {
+      // Tentar abrir o app
+      window.location.href = `wineapp://join/${inviteCode}`;
+      
+      // Fallback para loja de apps após 500ms
+      setTimeout(() => {
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        window.location.href = isIOS ? 
+          'https://apps.apple.com/app/idSEU_APP_ID' : 
+          'https://play.google.com/store/apps/details?id=com.wine.app';
+      }, 500);
+    } else {
+      document.body.innerHTML = '<h1>Link inválido</h1><p>Use um link de convite válido</p>';
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecionando para o WineApp...</p>
+</body>
+</html>
